@@ -1,0 +1,48 @@
+remote_file(
+    name = "nvidia-cudnn-download",
+    url = "https://files.pythonhosted.org/packages/77/f0/8236c886a061d203e51247aec2b8e3a8f5350178251ab57237daf2140680/nvidia_cudnn_cu12-9.8.0.87-py3-none-manylinux_2_27_x86_64.whl",
+    sha256 = "d6b02cd0e3e24aa31d0193a8c39fec239354360d7d81055edddb69f35d53a4c8",
+)
+
+remote_file(
+    name = "nvidia-cusparse-download",
+    url = "https://files.pythonhosted.org/packages/c2/f5/e1854cb2f2bcd4280c44736c93550cc300ff4b8c95ebe370d0aa7d2b473d/nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+    sha256 = "1ec05d76bbbd8b61b06a80e1eaf8cf4959c3d4ce8e711b65ebd0443bb0ebb13b",
+)
+
+remote_file(
+    name = "nvidia-cusparselt-download",
+    url = "https://files.pythonhosted.org/packages/3b/9a/72ef35b399b0e183bc2e8f6f558036922d453c4d8237dab26c666a04244b/nvidia_cusparselt_cu12-0.6.3-py3-none-manylinux2014_x86_64.whl",
+    sha256 = "e5c8a26c36445dd2e6812f1177978a24e2d37cacce7e090f297a688d1ec44f46",
+)
+
+remote_file(
+    name = "nvidia-nccl-download",
+    url = "https://files.pythonhosted.org/packages/11/0c/8c78b7603f4e685624a3ea944940f1e75f36d71bd6504330511f4a0e1557/nvidia_nccl_cu12-2.25.1-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+    sha256 = "362aed5963fb9ea2ed2f264409baae30143498fd0e5c503aeaa1badd88cdc54a",
+)
+
+remote_file(
+    name = "nvidia-nvjitlink-download",
+    url = "https://files.pythonhosted.org/packages/f6/74/86a07f1d0f42998ca31312f998bd3b9a7eff7f52378f4f270c8679c77fb9/nvidia_nvjitlink_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl",
+    sha256 = "81ff63371a7ebd6e6451970684f916be2eab07321b73c9d244dc2b4da7f73b88",
+)
+
+genrule(
+    name = "nvidia-wheel",
+    srcs = [
+        ":nvidia-cudnn-download",
+        ":nvidia-cusparse-download",
+        ":nvidia-cusparselt-download",
+        ":nvidia-nccl-download",
+        ":nvidia-nvjitlink-download",
+    ],
+    out = "nvidia_cu12-9.8.0.87-py3-none-manylinux_2_27_x86_64.whl",
+    cmd = "for src in ${SRCS}; do unzip -d ${TMP} -o $src; done; cd ${TMP}; zip -r ${OLDPWD}/${OUT} *",
+)
+
+prebuilt_python_library(
+    name = "nvidia",
+    binary_src = ":nvidia-wheel",
+    visibility = ["PUBLIC"],
+)

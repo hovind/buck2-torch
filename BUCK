@@ -26,8 +26,14 @@ remote_file(
 
 remote_file(
     name = "safetensors-download",
-    url = "https://files.pythonhosted.org/packages/40/ad/2b113098e69c985a3d8fbda4b902778eae4a35b7d5188859b4a63d30c161/safetensors-0.5.3-cp38-abi3-musllinux_1_2_x86_64.whl",
-    sha256 = "37f1521be045e56fc2b54c606d4455573e717b2d887c579ee1dbba5f868ece04",
+    url = "https://files.pythonhosted.org/packages/a6/f8/dae3421624fcc87a89d42e1898a798bc7ff72c61f38973a65d60df8f124c/safetensors-0.5.3-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+    sha256 = "cead1fa41fc54b1e61089fa57452e8834f798cb1dc7a09ba3524f1eb08e0317a",
+)
+
+remote_file(
+    name = "tokenizers-download",
+    url = "https://files.pythonhosted.org/packages/22/06/69d7ce374747edaf1695a4f61b83570d91cc8bbfc51ccfecf76f56ab4aac/tokenizers-0.21.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+    sha256 = "e84ca973b3a96894d1707e189c14a774b701596d579ffc7e69debfc036a61a04",
 )
 
 remote_file(
@@ -78,12 +84,18 @@ prebuilt_python_library(
 )
 
 prebuilt_python_library(
+    name = "tokenizers",
+    binary_src = ":tokenizers-download",
+)
+
+prebuilt_python_library(
     name = "transformers",
     binary_src = ":transformers-download",
     deps = [
         ":huggingface-hub",
         ":regex",
         ":safetensors",
+        ":tokenizers",
     ],
 )
 
@@ -97,8 +109,7 @@ prebuilt_python_library(
     binary_src = ":torch-download",
     deps = [
         ":typing-extensions",
-        "//cudnn:nvidia-cudnn",
-        "//cusparse:nvidia-cusparse",
+        "//nvidia:nvidia",
     ],
 )
 
