@@ -1,0 +1,3 @@
+[submodule "buck2-prelude"]
+	path = prelude
+	url = ./buck2-prelude/
