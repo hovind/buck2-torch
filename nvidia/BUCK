@@ -1,43 +1,50 @@
 remote_file(
     name = "nvidia-cudnn-download",
-    url = "https://files.pythonhosted.org/packages/77/f0/8236c886a061d203e51247aec2b8e3a8f5350178251ab57237daf2140680/nvidia_cudnn_cu12-9.8.0.87-py3-none-manylinux_2_27_x86_64.whl",
-    sha256 = "d6b02cd0e3e24aa31d0193a8c39fec239354360d7d81055edddb69f35d53a4c8",
+    url = "https://files.pythonhosted.org/packages/13/d3/e20e514bf32e770d1aa324bfeac1ba31b3893c934b14ad2fb57437b857c6/nvidia_cudnn_cu12-9.9.0.52-py3-none-manylinux_2_27_x86_64.whl",
+    sha256 = "bdfc5081008c3f94ef237cffa6a79b6f7cd709e6018d6dfacf5a7fc7b4434b88",
+)
+
+remote_file(
+    name = "nvidia-cufile-download",
+    url = "https://files.pythonhosted.org/packages/bc/d2/381d8c0634f587ecab80895594737e766b1bd66e4a7594eed19f61beaecd/nvidia_cufile_cu12-1.14.0.30-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+    sha256 = "76f42fcd461c773cf87c0cd9b944c23db9a3c284213f59b6c1b130c6c382ccc1",
 )
 
 remote_file(
     name = "nvidia-cusparse-download",
-    url = "https://files.pythonhosted.org/packages/c2/f5/e1854cb2f2bcd4280c44736c93550cc300ff4b8c95ebe370d0aa7d2b473d/nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
-    sha256 = "1ec05d76bbbd8b61b06a80e1eaf8cf4959c3d4ce8e711b65ebd0443bb0ebb13b",
+    url = "https://files.pythonhosted.org/packages/a0/b3/8482b29fb64488db98eeb740a858afb5b94c1186ecc6ce719d734b819a86/nvidia_cusparse_cu12-12.5.9.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+    sha256 = "b2f816d34a7bceab4cb00f0eaadb6a99fc9c285204da6401b42b952e4d61b77b",
 )
 
 remote_file(
     name = "nvidia-cusparselt-download",
-    url = "https://files.pythonhosted.org/packages/3b/9a/72ef35b399b0e183bc2e8f6f558036922d453c4d8237dab26c666a04244b/nvidia_cusparselt_cu12-0.6.3-py3-none-manylinux2014_x86_64.whl",
-    sha256 = "e5c8a26c36445dd2e6812f1177978a24e2d37cacce7e090f297a688d1ec44f46",
+    url = "https://files.pythonhosted.org/packages/56/79/12978b96bd44274fe38b5dde5cfb660b1d114f70a65ef962bcbbed99b549/nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl",
+    sha256 = "f1bb701d6b930d5a7cea44c19ceb973311500847f81b634d802b7b539dc55623",
 )
 
 remote_file(
     name = "nvidia-nccl-download",
-    url = "https://files.pythonhosted.org/packages/11/0c/8c78b7603f4e685624a3ea944940f1e75f36d71bd6504330511f4a0e1557/nvidia_nccl_cu12-2.25.1-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
-    sha256 = "362aed5963fb9ea2ed2f264409baae30143498fd0e5c503aeaa1badd88cdc54a",
+    url = "https://files.pythonhosted.org/packages/48/fb/ec4ac065d9b0d56f72eaf1d9b0df601e33da28197b32ca351dc05b342611/nvidia_nccl_cu12-2.26.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+    sha256 = "ea5ed3e053c735f16809bee7111deac62ac35b10128a8c102960a0462ce16cbe",
 )
 
 remote_file(
     name = "nvidia-nvjitlink-download",
-    url = "https://files.pythonhosted.org/packages/f6/74/86a07f1d0f42998ca31312f998bd3b9a7eff7f52378f4f270c8679c77fb9/nvidia_nvjitlink_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl",
-    sha256 = "81ff63371a7ebd6e6451970684f916be2eab07321b73c9d244dc2b4da7f73b88",
+    url = "https://files.pythonhosted.org/packages/86/69/01de7245968084eb73e50512daa72b36e27dfd2994bf268e6a205eff5093/nvidia_nvjitlink_cu12-12.9.41-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl",
+    sha256 = "c3a2cd87cecf3f0ca5e5df97115ede3a81efec1d4b7e2ec89d13f66834042930",
 )
 
 genrule(
     name = "nvidia-wheel",
     srcs = [
         ":nvidia-cudnn-download",
+        ":nvidia-cufile-download",
         ":nvidia-cusparse-download",
         ":nvidia-cusparselt-download",
         ":nvidia-nccl-download",
         ":nvidia-nvjitlink-download",
     ],
-    out = "nvidia_cu12-9.8.0.87-py3-none-manylinux_2_27_x86_64.whl",
+    out = "nvidia_cu12-9.9.0.52-py3-none-manylinux_2_27_x86_64.whl",
     cmd = "for src in ${SRCS}; do unzip -d ${TMP} -o $src; done; cd ${TMP}; zip -r ${OLDPWD}/${OUT} *",
 )
 

@@ -50,8 +50,8 @@ remote_file(
 
 remote_file(
     name = "torch-download",
-    url = "https://files.pythonhosted.org/packages/e5/35/0c52d708144c2deb595cd22819a609f78fdd699b95ff6f0ebcd456e3c7c1/torch-2.6.0-cp312-cp312-manylinux1_x86_64.whl",
-    sha256 = "2bb8987f3bb1ef2675897034402373ddfc8f5ef0e156e2d8cfc47cacafdda4a9",
+    url = "https://files.pythonhosted.org/packages/4b/27/285a8cf12bd7cd71f9f211a968516b07dcffed3ef0be585c6e823675ab91/torch-2.7.0-cp313-cp313-manylinux_2_28_x86_64.whl",
+    sha256 = "9b52347118116cf3dff2ab5a3c3dd97c719eb924ac658ca2a7335652076df708",
 )
 
 prebuilt_python_library(
