@@ -11,6 +11,12 @@ remote_file(
 )
 
 remote_file(
+    name = "nvidia-cupti-download",
+    url = "https://files.pythonhosted.org/packages/f1/84/1ae6d8cbbd876249e4732f487bdc6296d7c8277512e919bed2815f1d9ee5/nvidia_cuda_cupti_cu12-12.9.19-py3-none-manylinux_2_25_x86_64.whl",
+    sha256 = "300a5087166edc80693ce4291b44dbd03cbf3bbabfeee3456bfb79b355456ad1",
+)
+
+remote_file(
     name = "nvidia-cusparse-download",
     url = "https://files.pythonhosted.org/packages/a0/b3/8482b29fb64488db98eeb740a858afb5b94c1186ecc6ce719d734b819a86/nvidia_cusparse_cu12-12.5.9.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
     sha256 = "b2f816d34a7bceab4cb00f0eaadb6a99fc9c285204da6401b42b952e4d61b77b",
@@ -39,6 +45,7 @@ genrule(
     srcs = [
         ":nvidia-cudnn-download",
         ":nvidia-cufile-download",
+        ":nvidia-cupti-download",
         ":nvidia-cusparse-download",
         ":nvidia-cusparselt-download",
         ":nvidia-nccl-download",
