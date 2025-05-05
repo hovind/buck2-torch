@@ -1,28 +1,26 @@
 #! /usr/bin/env python3
 
-from transformers import DetrImageProcessor, DetrForObjectDetection
 import torch
-from PIL import Image
 import requests
 
-url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+from PIL import Image
+from transformers import RTDetrV2ForObjectDetection, RTDetrImageProcessor
+
+url = 'http://images.cocodataset.org/val2017/000000039769.jpg'
 image = Image.open(requests.get(url, stream=True).raw)
 
-# you can specify the revision tag if you don't want the timm dependency
-processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
-model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
+image_processor = RTDetrImageProcessor.from_pretrained("PekingU/rtdetr_v2_r18vd")
+model = RTDetrV2ForObjectDetection.from_pretrained("PekingU/rtdetr_v2_r18vd")
 
-inputs = processor(images=image, return_tensors="pt")
-outputs = model(**inputs)
+inputs = image_processor(images=image, return_tensors="pt")
 
-# convert outputs (bounding boxes and class logits) to COCO API
-# let's only keep detections with score > 0.9
-target_sizes = torch.tensor([image.size[::-1]])
-results = processor.post_process_object_detection(outputs, target_sizes=target_sizes, threshold=0.9)[0]
+with torch.no_grad():
+    outputs = model(**inputs)
 
-for score, label, box in zip(results["scores"], results["labels"], results["boxes"]):
-    box = [round(i, 2) for i in box.tolist()]
-    print(
-            f"Detected {model.config.id2label[label.item()]} with confidence "
-            f"{round(score.item(), 3)} at location {box}"
-    )
+results = image_processor.post_process_object_detection(outputs, target_sizes=torch.tensor([(image.height, image.width)]), threshold=0.5)
+
+for result in results:
+    for score, label_id, box in zip(result["scores"], result["labels"], result["boxes"]):
+        score, label = score.item(), label_id.item()
+        box = [round(i, 2) for i in box.tolist()]
+        print(f"{model.config.id2label[label]}: {score:.2f} {box}")
